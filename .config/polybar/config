@@ -1,0 +1,264 @@
+[bar/mybar]
+	height = 40 
+	padding = 5px
+	fixed-center = true
+
+	modules-left = i3 appsep menu-apps 
+	modules-center = cpu sep memory
+	modules-right = network sep pulseaudio sep date sep time
+
+	border-bottom-size = 2
+	border-color = #9ca3b2
+	background = #18191a
+	foreground = #b0bec4
+
+	font-0 = FiraMono Nerd Font:style=Regular:size=15;2
+
+[module/sep]
+	type = custom/text
+	content = |
+	content-padding = 2
+
+[module/appsep]
+	type = custom/text
+	content = >
+	content-padding = 2
+
+[module/date]
+	type = internal/date
+	interval = 1.0
+	date = %Y-%m-%d (%A)
+	format = <label>
+	label = %date%
+
+[module/time]
+	type = internal/date
+	interval = 1.0
+	time = %H:%M:%S
+	format = <label>
+	label = %time%
+
+[module/cpu]
+	type = internal/cpu
+	interval = 3
+	format = <label>
+	label = CPU %percentage%%
+
+[module/memory]
+	type = internal/memory
+	interval = 3
+	format = <label>
+	label = RAM %gb_used%/%gb_free%
+
+[module/i3]
+	type = internal/i3
+	
+	; Only show workspaces defined on the same output as the bar
+	; Useful if you want to show monitor specific workspaces
+	; on different bars
+	; Default: false
+	pin-workspaces = true
+	
+	; Show urgent workspaces regardless of whether the workspace is actually hidden 
+	; by pin-workspaces.
+	; Default: false
+	; New in version 3.6.0
+	show-urgent = true
+	
+	; This will split the workspace name on ':'
+	; Default: false
+	strip-wsnumbers = true
+	
+	; Sort the workspaces by index instead of the default
+	; sorting that groups the workspaces by output
+	; Default: false
+	index-sort = true
+	
+	; Create click handler used to focus workspace
+	; Default: true
+	enable-click = true
+	
+	; Create scroll handlers used to cycle workspaces
+	; Wrap around when reaching the first/last workspace
+	; Set the scroll cycle direction 
+	enable-scroll = false
+	wrapping-scroll = false
+	reverse-scroll = false
+
+	format = <label-state> <label-mode>
+	
+	; Available tokens:
+	;   %mode%
+	; Default: %mode%
+	label-mode = %mode%
+	;label-mode-padding = 2
+	label-mode-background = #e60053
+	
+	; Available tokens:
+	;   %name%
+	;   %icon%
+	;   %index%
+	;   %output%
+	; Default: %icon% %name%
+	label-focused = %index%*
+	;label-focused-foreground = #ffffff
+	;label-focused-background = #3f3f3f
+	;label-focused-underline = #fba922
+	;label-focused-padding = 2
+	
+	; Available tokens:
+	;   %name%
+	;   %icon%
+	;   %index%
+	;   %output%
+	; Default: %icon% %name%
+	label-unfocused = %index%
+	;label-unfocused-padding = 4
+	
+	; Available tokens:
+	;   %name%
+	;   %icon%
+	;   %index%
+	;   %output%
+	; Default: %icon% %name%
+	;label-visible = %index%
+	;label-visible-underline = #555555
+	;label-visible-padding = 4
+	
+	; Available tokens:
+	;   %name%
+	;   %icon%
+	;   %index%
+	;   %output%
+	; Default: %icon% %name%
+	label-urgent = %index%
+	label-urgent-foreground = #000000
+	label-urgent-background = #bd2c40
+	;label-urgent-padding = 4
+	
+	; Separator in between workspaces
+	label-separator = |
+	label-separator-padding = 2
+	;label-separator-foreground = #ffb52a
+	
+[module/pulseaudio]
+	type = internal/pulseaudio
+	use-ui-max = true
+	interval = 5
+	; Available tags:
+	;   <label-volume> (default)
+	;   <ramp-volume>
+	;   <bar-volume>
+	format-volume = <label-volume>
+	
+	; Available tags:
+	;   <label-muted> (default)
+	;   <ramp-volume>
+	;   <bar-volume>
+	;format-muted = <label-muted>
+	
+	; Available tokens:
+	;   %percentage% (default)
+	;   %decibels%
+	label-volume = vol %percentage%
+	
+	; Available tokens:
+	;   %percentage% (default)
+	;   %decibels%
+	label-muted = vol muted
+	label-muted-foreground = #666
+	
+	; Right and Middle click
+	click-right = pavucontrol
+	; click-middle = 
+
+[module/menu-apps]
+	type = custom/menu
+
+	label-open = Apps
+	label-close = x
+	label-separator = |
+	label-padding = 5px
+	
+	; If true, <label-toggle> will be to the left of the menu items (default).
+	; If false, it will be on the right of all the items.
+	expand-right = true
+	
+	; "menu-LEVEL-N" has the same properties as "label-NAME" with
+	; the additional "exec" property
+	;
+	; Commands will be executed using "/bin/sh -c $COMMAND"
+
+	menu-0-0 = www
+	menu-0-0-exec = firefox
+	menu-0-1 = term
+	menu-0-1-exec = kitty
+	menu-0-2 = dc
+    menu-0-2-exec = /usr/bin/flatpak run --branch=stable --arch=x86_64 --command=discord com.discordapp.Discord
+	menu-0-3 = pass
+    menu-0-3-exec = /usr/bin/flatpak run --branch=stable --arch=x86_64 --command=bitwarden --file-forwarding com.bitwarden.desktop @@u %U @@
+	menu-0-4 = files
+	menu-0-4-exec = thunar
+	menu-0-5 = settings
+	menu-0-5-exec = xfce4-settings-manager
+	menu-0-6 = net
+	menu-0-6-exec = nm-connection-editor
+	menu-0-7 = music
+	menu-0-7-exec = ~/Documents/cider/Cider.AppImage
+    menu-0-8 = all
+	menu-0-8-exec = xfce4-appfinder
+	menu-0-9 = shutdown
+	menu-0-9-exec = poweroff
+
+[module/network]
+	type = internal/network
+	; Name of the network interface to display. You can get the names of the
+	; interfaces on your machine with `ip link`
+	; Wireless interfaces often start with `wl` and ethernet interface with `eno` or `eth`
+	interface = wlp3s0
+	
+	; If no interface is specified, polybar can detect an interface of the given type.
+	; If multiple are found, it will prefer running interfaces and otherwise just
+	; use the first one found.
+	; Either 'wired' or 'wireless'
+	; New in version 3.6.0
+	interface-type = wireless
+	
+	; Seconds to sleep between updates
+	; Default: 1
+	interval = 3.0
+	
+	; NOTE: Experimental (might change or be removed in the future)
+	; Test connectivity every Nth update by pinging 8.8.8.8
+	; In case the ping fails 'format-packetloss' is used until the next ping
+	; A value of 0 disables the feature
+	; Default: 0
+	;ping-interval = 3
+	
+	; @deprecated: Define min width using token specifiers (%downspeed:min% and %upspeed:min%)
+	; Minimum output width of upload/download rate
+	; Default: 3
+	udspeed-minwidth = 5
+	
+	; Accumulate values from all interfaces
+	; when querying for up/downspeed rate
+	; Default: false
+	accumulate-stats = true
+	
+	; Consider an `UNKNOWN` interface state as up.
+	; Some devices like USB network adapters have 
+	; an unknown state, even when they're running
+	; Default: false
+	unknown-as-up = true
+	
+	; The unit used for displaying network speeds
+	; For example if set to the empty string, a speed of 5 KB/s is displayed as 5 K
+	; Default: B/s
+	; New in version 3.6.0
+	speed-unit = ''
+	
+	format-connected = <label-connected>
+	format-disconnected = <label-disconnected>
+
+	label-connected = %essid% s:%signal%
+	label-disconnected = no wifi
